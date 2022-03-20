@@ -1,0 +1,160 @@
+<div class="d-flex justify-content-end mb-3">
+  <button class="btn btn-primary" (click)="this.openAddProductModal()">Add Product</button>
+
+</div>
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Item</th>
+      <th>Price</th>
+      <th>Stock</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products" (dblclick)="openEditProductModal(product.id)">
+      <td>{{ product.id }}</td>
+      <td>{{ product.item }}</td>
+      <td>{{ product.price }}</td>
+      <td>{{ product.stock }}</td>
+    </tr>
+  </tbody>
+</table>
+<ng-template #productModal>
+  <div class="modal-header">
+      <h4 class="modal-title pull-left">{{ this.mode === 'edit' ? 'Edit Product' : 'Add Product'}}</h4>
+      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="this.modalRef?.hide();">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+    <form class="row g-3">
+      <div class="col-md-12">
+        <label for="item" class="form-label">Item</label>
+        <input type="text" class="form-control" id="item" name="item" [(ngModel)]="this.productReq.item">
+      </div>
+      <div class="col-md-6">
+        <label for="price" class="form-label">Price</label>
+        <input type="number" class="form-control" id="price" name="price" min="0" [(ngModel)]="this.productReq.price">
+      </div>
+      <div class="col-md-6">
+        <label for="stock" class="form-label">Stock</label>
+        <input type="number" class="form-control" id="stock" name="stock" min="0" [(ngModel)]="this.productReq.stock">
+      </div>
+
+      <div *ngIf="this.mode === 'edit'">
+        <label for="formFileMultiple" class="form-label">Pictures</label>
+        <div style="width: 30%">
+          <carousel>
+            <!-- TODO: fixed the color -->
+            <slide *ngFor="let image of this.productReq.pictures">
+                <img [src]="image" alt="first slide" style="display: block; width: 100%;">
+            </slide>
+          </carousel>
+        </div>
+        <input class="form-control" type="file" name="pictures" (change)="convertImgToBase64($event)" multiple>
+      </div>
+      <div *ngIf="this.mode === 'add'">
+        <div class="col-md-12 mb-3">
+          <label for="formFileMultiple" class="form-label">Pictures</label>
+          <input class="form-control" type="file" name="pictures" (change)="convertImgToBase64($event)" multiple>
+        </div>
+      </div>    
+      <div>
+        Sizing
+        <div class="box row mx-1 my-2" style="padding-bottom: 15px;">
+          <div class="col-md-4 mt-3 sizing">
+            <p>XS</p>
+            <div class="box">
+              <div class="input-group mb-3">
+                <span class="input-group-text">Chest: </span>
+                <input type="number" class="form-control" id="xs-chest" name="xs-chest" min="0" [(ngModel)]="this.productReq.xs.chest">
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text">Waist: </span>
+                <input type="number" class="form-control" id="xs-waist" name="xs-waist" min="0" [(ngModel)]="this.productReq.xs.waist">
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text">Hip: </span>
+                <input type="number" class="form-control" id="xs-hip" name="xs-hip" min="0" [(ngModel)]="this.productReq.xs.hip">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mt-3 sizing">
+            <p>S</p>
+            <div class="box">
+              <div class="input-group mb-3">
+                <span class="input-group-text">Chest: </span>
+                <input type="number" class="form-control" id="s-chest" name="s-chest" min="0" [(ngModel)]="this.productReq.s.chest">
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text">Waist: </span>
+                <input type="number" class="form-control" id="s-waist" name="s-waist" min="0" [(ngModel)]="this.productReq.s.waist">
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text">Hip: </span>
+                <input type="number" class="form-control" id="s-hip" name="s-hip" min="0" [(ngModel)]="this.productReq.s.hip">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mt-3 sizing">
+            <p>M</p>
+            <div class="box">
+              <div class="input-group mb-3">
+                <span class="input-group-text">Chest: </span>
+                <input type="number" class="form-control" id="m-chest" name="m-chest" min="0" [(ngModel)]="this.productReq.m.chest">
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text">Waist: </span>
+                <input type="number" class="form-control" id="m-waist" name="m-waist" min="0" [(ngModel)]="this.productReq.m.waist">
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text">Hip: </span>
+                <input type="number" class="form-control" id="m-hip" name="m-hip" min="0" [(ngModel)]="this.productReq.m.hip">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mt-3 sizing">
+            <p>L</p>
+            <div class="box">
+              <div class="input-group mb-3">
+                <span class="input-group-text">Chest: </span>
+                <input type="number" class="form-control" id="l-chest" name="l-chest" min="0" [(ngModel)]="this.productReq.l.chest">
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text">Waist: </span>
+                <input type="number" class="form-control" id="l-waist" name="l-waist" min="0" [(ngModel)]="this.productReq.l.waist">
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text">Hip: </span>
+                <input type="number" class="form-control" id="l-hip" name="l-hip" min="0" [(ngModel)]="this.productReq.l.hip">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mt-3 sizing">
+            <p>XL</p>
+            <div class="box">
+              <div class="input-group mb-3">
+                <span class="input-group-text">Chest: </span>
+                <input type="number" class="form-control" id="xl-chest" name="xl-chest" min="0" [(ngModel)]="this.productReq.xl.chest">
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text">Waist: </span>
+                <input type="number" class="form-control" id="xl-waist" name="xl-waist" min="0" [(ngModel)]="this.productReq.xl.waist">
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text">Hip: </span>
+                <input type="number" class="form-control" id="xl-hip" name="xl-hip" min="0" [(ngModel)]="this.productReq.xl.hip">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary" (click)="this.addProduct()" *ngIf="this.mode === 'add'">Add</button>
+        <button type="submit" class="btn btn-secondary ms-3" (click)="this.editProduct()" *ngIf="this.mode === 'edit'">Edit</button>
+        <button type="submit" class="btn btn-danger ms-3" (click)="this.deleteProduct()" *ngIf="this.mode === 'edit'">Delete</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

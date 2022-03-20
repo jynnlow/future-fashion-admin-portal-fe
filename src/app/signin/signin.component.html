@@ -1,0 +1,21 @@
+<div style="height: 100%" class="d-flex justify-content-center align-items-center">
+    <div style="width: 300px;">
+        <div class="text-center">
+            <img class="mb-4 logo" src="../../assets/logo.png">
+            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+        </div>
+    
+        <div class="form-floating">
+        <input type="text" class="form-control" id="username" name="username" placeholder="hello world" [(ngModel)]="this.loginReq.username">
+        <label for="username">Username</label>
+        </div>
+        <div class="form-floating">
+        <input type="password" class="form-control" id="password" name="password" placeholder="Password" [(ngModel)]="this.loginReq.password">
+        <label for="password">Password</label>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit" (click)="login()">Sign in</button>
+        <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
+    </div>
+</div>
+
+  
