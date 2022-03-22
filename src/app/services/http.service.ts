@@ -2,7 +2,8 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { catchError, retry, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
-import * as dto from '../dto/dto';
+import * as dtoProduct from '../dto/product';
+import * as dtoUser from '../dto/user';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -10,20 +11,20 @@ import { AuthService } from './auth.service';
 })
 export class HttpService {
   url = environment.URL;
-  headers = new HttpHeaders();
+  headers = new HttpHeaders({
+    'Authorization': this.authService.getToken(),
+  });
 
   constructor(
     private http: HttpClient,
     private authService: AuthService
-  ) { 
-    this.headers.append('Authorization', this.authService.getToken());
-  }
+  ) { }
 
   errorHandler(error: HttpErrorResponse) {
     return throwError(() => error);
   }
 
-  signin(loginReq: dto.LoginReq) {
+  signin(loginReq: dtoProduct.LoginReq) {
     return this.http.post<any>(`${this.url}/user/login`, loginReq)
     .pipe(
       retry(1),
@@ -32,14 +33,14 @@ export class HttpService {
   }
 
   getProducts() {
-    return this.http.get<dto.ListProductsRes>(`${this.url}/product/list-products`)
+    return this.http.get<dtoProduct.ListProductsRes>(`${this.url}/product/list-products`)
     .pipe(
       retry(1),
       catchError(this.errorHandler),
     )
   }
 
-  addProduct(product: dto.Product) {
+  addProduct(product: dtoProduct.Product) {
     return this.http.post<any>(`${this.url}/product/create-product`, product, {
       headers: this.headers,
     }).pipe(
@@ -48,7 +49,7 @@ export class HttpService {
     )
   }
 
-  editProduct(product: dto.Product) {
+  editProduct(product: dtoProduct.Product) {
     return this.http.patch<any>(`${this.url}/product/edit-product`, product, {
       headers: this.headers,
     }).pipe(
@@ -59,7 +60,42 @@ export class HttpService {
 
   deleteProduct(id: number) {
     return this.http.delete<any>(`${this.url}/product/delete-product?id=${id}`, {
-      headers: this.headers
+      headers: this.headers,
+    }).pipe(
+      retry(1),
+      catchError(this.errorHandler),
+    )
+  }
+
+  getUsers(){
+    return this.http.get<dtoUser.ListUsersRes>(`${this.url}/admin/list-customers`)
+    .pipe(
+      retry(1),
+      catchError(this.errorHandler),
+    )
+  }
+
+  addUsers(user: dtoUser.User){
+    return this.http.post<any>(`${this.url}/admin/create-customer`, user, {
+      headers: this.headers,
+    }).pipe(
+      retry(1),
+      catchError(this.errorHandler),
+    )
+  }
+
+  editUser(user: dtoUser.User){
+    return this.http.patch<any>(`${this.url}/admin/edit-customer`, user, {
+      headers: this.headers,
+    }).pipe(
+      retry(1),
+      catchError(this.errorHandler),
+    )
+  }
+
+  deleteUser(id: number) {
+    return this.http.delete<any>(`${this.url}/admin/delete-customer?id=${id}`, {
+      headers: this.headers,
     }).pipe(
       retry(1),
       catchError(this.errorHandler),

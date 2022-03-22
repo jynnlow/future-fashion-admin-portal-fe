@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core'
 import { HttpService } from '../services/http.service';
 import { DataTableDirective } from 'angular-datatables';
-import Swal from 'sweetalert2';
-import * as dto from '../dto/dto';
 import { Subject } from 'rxjs';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import Swal from 'sweetalert2';
+import * as dto from '../dto/product';
 
 @Component({
   selector: 'app-product',
@@ -12,24 +12,35 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit, OnDestroy {
+  //class properties
+  mode = 'add';
+
   // Datatable related
   @ViewChild(DataTableDirective, { static: false })
   dtElement!: DataTableDirective;
   dtOptions: DataTables.Settings = {
     pagingType: 'full_numbers',
-    pageLength: 10
+    pageLength: 10,
+    destroy: true,
+    paging: false,
+    retrieve: true,
+    searching: true,
   };
   dtTrigger: Subject<any> = new Subject<any>();
+
   // table content
   products: dto.Product[] = [];
+
   // modal content
   modalRef?: BsModalRef;
   @ViewChild('productModal') productModal: TemplateRef<any> = <TemplateRef<any>>{};
+  
+  //product dto
   productReq: dto.Product = {
     id: 0,
-    item: 'testing 123',
-    price: 10,
-    stock: 10,
+    item: '',
+    price: 0,
+    stock: 0,
     pictures: [],
     xs: this.getGenericSizing(),
     s: this.getGenericSizing(),
@@ -37,7 +48,6 @@ export class ProductComponent implements OnInit, OnDestroy {
     l: this.getGenericSizing(),
     xl: this.getGenericSizing()
   };
-  mode = 'add';
 
   constructor(
     private http: HttpService,
@@ -63,24 +73,32 @@ export class ProductComponent implements OnInit, OnDestroy {
       }
     })
   }
-
-  ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
-  }
-
+  
   loadProduct(id: number) {
     let foundProduct = this.products.find(product => product.id === id);
     if(foundProduct) {
       this.productReq = foundProduct;
       return;
     }
-
     Swal.fire('Error', 'error fetching product', 'error');
   }
+
 
   openModal(modal: TemplateRef<any>) {
     this.modalRef = this.modalService.show(modal);
     this.modalRef.setClass('modal-xl');
+  }
+
+  openAddProductModal() {
+    this.mode = 'add'; 
+    this.resetProductReq(); 
+    this.openModal(this.productModal);
+  }
+
+  openEditProductModal(id: number) {
+    this.mode = 'edit';
+    this.loadProduct(id);
+    this.openModal(this.productModal);
   }
 
   getGenericSizing(): dto.Sizing {
@@ -91,12 +109,12 @@ export class ProductComponent implements OnInit, OnDestroy {
     };
   }
 
-  resetProductReq () {
+  resetProductReq(){
     this.productReq = {
       id: 0,
-      item: 'testing 123',
-      price: 10,
-      stock: 10,
+      item: '',
+      price: 0,
+      stock: 0,
       pictures: [],
       xs: this.getGenericSizing(),
       s: this.getGenericSizing(),
@@ -134,7 +152,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   async editProduct() {
     const confirmRes = await Swal.fire({
-      title: 'Add Product',
+      title: 'Edit Product',
       text: 'Confirm edit product?',
       icon: 'question',
       showDenyButton: true,
@@ -160,7 +178,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   async deleteProduct() {
     const confirmRes = await Swal.fire({
-      title: 'Add Product',
+      title: 'Delete Product',
       text: 'Confirm delete product?',
       icon: 'question',
       showDenyButton: true,
@@ -190,7 +208,7 @@ export class ProductComponent implements OnInit, OnDestroy {
       // Destroy the table first
       dtInstance.destroy();
       // Call the dtTrigger to rerender again
-      this.dtTrigger.next(null);
+      // this.dtTrigger.next(null);
     });
   }
 
@@ -213,15 +231,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     })
   }
 
-  openAddProductModal() {
-    this.mode = 'add'; 
-    this.resetProductReq(); 
-    this.openModal(this.productModal);
-  }
-
-  openEditProductModal(id: number) {
-    this.mode = 'edit';
-    this.loadProduct(id);
-    this.openModal(this.productModal);
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
   }
 }

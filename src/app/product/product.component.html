@@ -1,6 +1,5 @@
 <div class="d-flex justify-content-end mb-3">
   <button class="btn btn-primary" (click)="this.openAddProductModal()">Add Product</button>
-
 </div>
 <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
   <thead>
@@ -23,7 +22,7 @@
 <ng-template #productModal>
   <div class="modal-header">
       <h4 class="modal-title pull-left">{{ this.mode === 'edit' ? 'Edit Product' : 'Add Product'}}</h4>
-      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="this.modalRef?.hide();">
+      <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="this.modalRef?.hide()">
       <span aria-hidden="true" class="visually-hidden">&times;</span>
       </button>
   </div>
@@ -152,7 +151,7 @@
       </div>
       <div class="col-12 d-flex justify-content-end">
         <button type="submit" class="btn btn-primary" (click)="this.addProduct()" *ngIf="this.mode === 'add'">Add</button>
-        <button type="submit" class="btn btn-secondary ms-3" (click)="this.editProduct()" *ngIf="this.mode === 'edit'">Edit</button>
+        <button type="submit" class="btn btn-warning ms-3" (click)="this.editProduct()" *ngIf="this.mode === 'edit'">Edit</button>
         <button type="submit" class="btn btn-danger ms-3" (click)="this.deleteProduct()" *ngIf="this.mode === 'edit'">Delete</button>
       </div>
     </form>

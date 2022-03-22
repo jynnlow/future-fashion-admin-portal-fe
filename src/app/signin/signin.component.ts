@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as dto from '../dto/dto';
+import * as dto from '../dto/product';
 import { HttpService } from '../services/http.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';

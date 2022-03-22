@@ -1,1 +1,67 @@
-<p>user works!</p>
+<div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-primary" (click)="this.openAddUserModal()">Add User</button>
+</div>
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>DOB</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of users" (dblclick)="openEditUserModal(user.id)">
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td >{{ user.role }}</td>
+            <td>{{ user.dob }}</td>
+          </tr>
+    </tbody>
+</table>
+<ng-template #userModal>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">{{ this.mode === 'edit' ? 'Edit User' : 'Add User'}}</h4>
+        <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="this.modalRef?.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form class="row -g-3">
+            <div class="col-md-12 mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username" [(ngModel)]="this.userReq.username">
+            </div>
+            <div class="col-md-12 mb-3">
+                <label for="password" class="form-label">Password</label>
+                <textarea type="text" class="form-control overflow-auto" id="password" name="password" [(ngModel)]="this.userReq.password"></textarea>
+            </div>
+            <div class="col-md-12 mb-4">
+                <label for="dob" class="form-label">Date of Birth</label>
+                <input type="date" class="form-control" id="dob" name="dob" [(ngModel)]="this.userReq.dob">
+            </div>
+            <div class="col-md-12 mb-3">
+                <label for="sizing" class="form-label">Sizing</label>
+                <div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Chest: </span>
+                        <input type="number" class="form-control" id="chest" name="chest" min="0" [(ngModel)]="this.userReq.chest">
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">Waist: </span>
+                        <input type="number" class="form-control" id="waist" name="waist" min="0" [(ngModel)]="this.userReq.waist">
+                      </div>
+                      <div class="input-group mb-3">
+                        <span class="input-group-text">Hip: </span>
+                        <input type="number" class="form-control" id="hip" name="hip" min="0" [(ngModel)]="this.userReq.hip">
+                      </div>
+                </div>
+            </div>
+            <div class="col-12 d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary" *ngIf="this.mode === 'add'" (click)="this.addUser()">Add</button>
+                <button type="submit" class="btn btn-warning ms-3" *ngIf="this.mode === 'edit'" (click)="this.editUser()">Edit</button>
+                <button type="submit" class="btn btn-danger ms-3" *ngIf="this.mode === 'edit'" (click)="this.deleteUser()">Delete</button>
+            </div>
+        </form>
+    </div>
+</ng-template>
