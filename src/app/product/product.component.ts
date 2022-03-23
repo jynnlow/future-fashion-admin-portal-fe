@@ -137,14 +137,14 @@ export class ProductComponent implements OnInit, OnDestroy {
       this.http.addProduct(this.productReq).subscribe({
         next: data => {
           if(data['status'] !== 'SUCCESS') {
-            Swal.fire('Error', `error is ${data['message']}`, 'error');
+            Swal.fire('Error', data['message'], 'error');
           }else{
             Swal.fire('Success', `product added successfully`, 'success');
             this.rerender();
             this.modalRef?.hide();
           }
         }, error: err => {
-          Swal.fire('Error', `error is ${err}`, 'error')
+          Swal.fire('Error', err, 'error')
         }
       })
     }
@@ -163,14 +163,14 @@ export class ProductComponent implements OnInit, OnDestroy {
       this.http.editProduct(this.productReq).subscribe({
         next: data => {
           if(data['status'] !== 'SUCCESS') {
-            Swal.fire('Error', `error is ${data['message']}`, 'error');
+            Swal.fire('Error', data['message'], 'error');
           }else{
             Swal.fire('Success', `product edited successfully`, 'success');
             this.rerender();
             this.modalRef?.hide();
           }
         }, error: err => {
-          Swal.fire('Error', `error is ${err}`, 'error')
+          Swal.fire('Error', err, 'error')
         }
       })
     }
@@ -189,14 +189,14 @@ export class ProductComponent implements OnInit, OnDestroy {
       this.http.deleteProduct(this.productReq.id).subscribe({
         next: data => {
           if(data['status'] !== 'SUCCESS') {
-            Swal.fire('Error', `error is ${data['message']}`, 'error');
+            Swal.fire('Error', data['message'], 'error');
           }else{
             Swal.fire('Success', `product deleted successfully`, 'success');
             this.rerender();
             this.modalRef?.hide();
           }
         }, error: err => {
-          Swal.fire('Error', `error is ${err}`, 'error')
+          Swal.fire('Error', err, 'error')
         }
       })
     }

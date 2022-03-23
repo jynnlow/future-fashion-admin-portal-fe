@@ -1,6 +1,3 @@
-<div class="d-flex justify-content-end mb-3">
-  <button class="btn btn-primary" (click)="this.openAddProductModal()">Add Product</button>
-</div>
 <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
   <thead>
     <tr>
@@ -150,10 +147,13 @@
         </div>
       </div>
       <div class="col-12 d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary" (click)="this.addProduct()" *ngIf="this.mode === 'add'">Add</button>
+        <button type="submit" class="btn pink-button" (click)="this.addProduct()" *ngIf="this.mode === 'add'">Add</button>
         <button type="submit" class="btn btn-warning ms-3" (click)="this.editProduct()" *ngIf="this.mode === 'edit'">Edit</button>
         <button type="submit" class="btn btn-danger ms-3" (click)="this.deleteProduct()" *ngIf="this.mode === 'edit'">Delete</button>
       </div>
     </form>
   </div>
 </ng-template>
+<div class="d-flex justify-content-start mt-5">
+  <button class="btn pink-button" (click)="this.openAddProductModal()">Add Product</button>
+</div>

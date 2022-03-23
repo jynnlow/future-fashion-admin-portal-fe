@@ -79,7 +79,7 @@ export class UserComponent implements OnInit {
       this.userReq = foundUser;
       return;
     }
-    Swal.fire('Error', 'error fetching product', 'error');
+    Swal.fire('Error', 'error fetching user', 'error');
   }
 
   resetUserReq(){
@@ -135,14 +135,14 @@ export class UserComponent implements OnInit {
       this.http.addUsers(this.userReq).subscribe({
         next: data => {
           if(data['status'] !== 'SUCCESS') {
-            Swal.fire('Error', `error is ${data['message']}`, 'error');
+            Swal.fire('Error', data['message'], 'error');
           }else{
-            Swal.fire('Success', `product added successfully`, 'success');
+            Swal.fire('Success', `user added successfully`, 'success');
             this.rerender();
             this.modalRef?.hide();
           }
         }, error: err => {
-          Swal.fire('Error', `error is ${err}`, 'error')
+          Swal.fire('Error', err, 'error')
         }
       })
     }
@@ -161,14 +161,14 @@ export class UserComponent implements OnInit {
       this.http.editUser(this.userReq).subscribe({
         next: data => {
           if(data['status'] !== 'SUCCESS') {
-            Swal.fire('Error', `error is ${data['message']}`, 'error');
+            Swal.fire('Error', data['message'], 'error');
           }else{
-            Swal.fire('Success', `product edited successfully`, 'success');
+            Swal.fire('Success', `user edited successfully`, 'success');
             this.rerender();
             this.modalRef?.hide();
           }
         }, error: err => {
-          Swal.fire('Error', `error is ${err}`, 'error')
+          Swal.fire('Error', err, 'error')
         }
       })
     }
@@ -187,14 +187,14 @@ export class UserComponent implements OnInit {
       this.http.deleteUser(this.userReq.id).subscribe({
         next: data => {
           if(data['status'] !== 'SUCCESS') {
-            Swal.fire('Error', `error is ${data['message']}`, 'error');
+            Swal.fire('Error', data['message'], 'error');
           }else{
-            Swal.fire('Success', `product deleted successfully`, 'success');
+            Swal.fire('Success', `user deleted successfully`, 'success');
             this.rerender();
             this.modalRef?.hide();
           }
         }, error: err => {
-          Swal.fire('Error', `error is ${err}`, 'error')
+          Swal.fire('Error', err, 'error')
         }
       })
     }

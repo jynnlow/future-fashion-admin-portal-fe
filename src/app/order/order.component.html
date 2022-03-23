@@ -1,1 +1,82 @@
-<p>order works!</p>
+<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+    <thead>
+      <tr class="text-center">
+        <th>ID</th>
+        <th>Customer ID</th>
+        <th>Total</th>
+        <th>Status</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="text-center" *ngFor="let order of orders" (dblclick)="openOrderModal(order.id)">
+        <td>#000{{ order.id }}</td>
+        <td>{{ order.userID }}</td>
+        <td>{{ order.total }}</td>
+        <td>{{ order.status }}</td>
+        <td>{{order.createdAt}}</td>
+      </tr>
+    </tbody>
+</table>
+<ng-template #orderModal>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Order ID: #000{{this.order.id}}</h4>
+        <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="this.modalRef?.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="mb-5">
+            <h4 class="fw-bold">Customer Info</h4>
+            <div class="d-flex flex-row">
+                <h6 class="pt-1 px-2 fw-bold">ID : </h6>
+                <h6 class="pt-1 px-2 ">{{this.userInfo.id}} </h6>
+            </div>
+            <div class="d-flex flex-row">
+                <h6 class="px-2 fw-bold">Username : </h6>
+                <h6 class="px-2">{{this.userInfo.username}} </h6>
+            </div>
+        </div>
+        <div>
+            <h4 class="fw-bold">Order Details</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Sizing</th>
+                        <th>Quantity</th>
+                        <th class="text-center">Sub Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let orderDetail of orderDetails">
+                        <td>{{ orderDetail.id }}</td>
+                        <td>{{ orderDetail.item }}</td>
+                        <td>{{ orderDetail.price }}</td>
+                        <td>{{ orderDetail.sizing }}</td>
+                        <td>{{ orderDetail.quantity }}</td>
+                        <td class="text-center">{{ orderDetail.quantity * orderDetail.price}}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="5" class="text-end">Total: </th>
+                        <td class="text-center">{{this.order.total}}</td>
+                    </tr>
+                    </tbody>
+            </table>
+            <div>
+                <div class="mb-3 mt-5">
+                    <h6><mark class="mark-text"> NOTE:</mark>  Admin does not allowed to edit any order details except for order status due to SSOT.</h6>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Status: </span>
+                    <input type="text" class="form-control" id="status" name="status" [(ngModel)]="this.order.status">
+                </div>
+                <div class="col-12 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-warning" (click)="this.editOrderStatus()">Update Status</button>
+                  </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

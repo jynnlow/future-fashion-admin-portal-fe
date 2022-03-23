@@ -34,6 +34,7 @@ export class SigninComponent implements OnInit {
             heightAuto: false,
           });
           localStorage.setItem('access_token', `Bearer ${data.details}`);
+          console.log(localStorage.getItem('access_token')!);
           this.router.navigate(['/product']);
         }else{
           Swal.fire({

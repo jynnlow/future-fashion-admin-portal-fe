@@ -1,20 +1,20 @@
 <div class="container-fluid h-100">
     <div class="row h-100">
         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-        <div class="position-sticky pt-3">
+        <div class="position-sticky pt-2">
             <ul class="nav flex-column">
             <li class="nav-item pointer" (click)="this.page = 'user'">
-                <a [ngClass]="this.page === 'user'? 'nav-link active' : 'nav-link'">
+                <a class="" [ngClass]="this.page === 'user'? 'nav-link active' : 'nav-link'">
                 Users
                 </a>
             </li>
             <li class="nav-item pointer" (click)="this.page = 'product'">
-                <a [ngClass]="this.page === 'product'? 'nav-link active' : 'nav-link'">
+                <a class="" [ngClass]="this.page === 'product'? 'nav-link active' : 'nav-link'">
                 Products
                 </a>
             </li>
             <li class="nav-item pointer" (click)="this.page = 'order'">
-                <a [ngClass]="this.page === 'order'? 'nav-link active' : 'nav-link'">
+                <a class="" [ngClass]="this.page === 'order'? 'nav-link active' : 'nav-link'">
                 Orders
                 </a>
             </li>
@@ -23,12 +23,12 @@
         </nav>
 
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Dashboard</h1>
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom border-color">
+            <h3> Admin Dashboard</h3>
             <div class="btn-toolbar mb-2 mb-md-0">
             </div>
         </div>
-        <div style="min-height: 1000px;">
+        <div style="min-height: 1000px;" class="mt-5">
             <app-user *ngIf="this.page === 'user'"></app-user>
             <app-product *ngIf="this.page === 'product'"></app-product>
             <app-order *ngIf="this.page === 'order'"></app-order>
