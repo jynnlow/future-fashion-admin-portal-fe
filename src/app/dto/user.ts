@@ -19,7 +19,13 @@ interface ListUsersRes{
     details: Users
 }
 
+interface LoginReq {
+    username: string
+    password: string
+}
+
 export {
     User,
-    ListUsersRes
+    ListUsersRes,
+    LoginReq
 }

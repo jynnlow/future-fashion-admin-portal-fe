@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as dto from '../dto/product';
+import * as dto from '../dto/user';
 import { HttpService } from '../services/http.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
@@ -35,11 +35,11 @@ export class SigninComponent implements OnInit {
           });
           localStorage.setItem('access_token', `Bearer ${data.details}`);
           console.log(localStorage.getItem('access_token')!);
-          this.router.navigate(['/product']);
+          this.router.navigate(['/home']);
         }else{
           Swal.fire({
             title: 'Error',
-            text: 'error in login',
+            text: data.message,
             icon: 'error',
             heightAuto: false,
           });
@@ -47,7 +47,7 @@ export class SigninComponent implements OnInit {
       }, error: err => {
         Swal.fire({
           title: 'Error',
-          text: `err is ${err}`,
+          text: err,
           icon: 'error',
           heightAuto: false,
         });

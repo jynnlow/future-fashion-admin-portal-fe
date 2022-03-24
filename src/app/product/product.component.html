@@ -40,12 +40,11 @@
 
       <div *ngIf="this.mode === 'edit'">
         <label for="formFileMultiple" class="form-label">Pictures</label>
-        <div style="width: 30%">
-          <carousel>
-            <!-- TODO: fixed the color -->
-            <slide *ngFor="let image of this.productReq.pictures">
-                <img [src]="image" alt="first slide" style="display: block; width: 100%;">
-            </slide>
+        <div style="width: 40%">
+          <carousel class="carousel carousel-dark slide">
+              <slide *ngFor="let image of this.productReq.pictures">
+                  <img [src]="image" alt="first slide" style="display: block; width: 100%;">
+              </slide>
           </carousel>
         </div>
         <input class="form-control" type="file" name="pictures" (change)="convertImgToBase64($event)" multiple>

@@ -27,15 +27,8 @@ interface Sizing {
     waist: number
 }
 
-//TODO: move loginreq to user.ts
-interface LoginReq {
-    username: string
-    password: string
-}
-
 export {
     ListProductsRes,
     Product,
     Sizing,
-    LoginReq
 }
