@@ -26,7 +26,7 @@ export class HttpService {
   }
 
   signin(loginReq: dtoUser.LoginReq) {
-    return this.http.post<any>(`${this.url}/user/login`, loginReq)
+    return this.http.post<any>(`${this.url}/admin/login`, loginReq)
     .pipe(
       retry(1),
       catchError(this.errorHandler),

@@ -43,6 +43,7 @@ export class SigninComponent implements OnInit {
             icon: 'error',
             heightAuto: false,
           });
+          this.router.navigate(['/signin']);
         }
       }, error: err => {
         Swal.fire({
@@ -51,6 +52,7 @@ export class SigninComponent implements OnInit {
           icon: 'error',
           heightAuto: false,
         });
+        this.router.navigate(['/signin']);
       }
     });
   }
